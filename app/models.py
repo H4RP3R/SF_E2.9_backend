@@ -2,6 +2,7 @@ import uuid
 import os
 import time
 import smtplib
+from django.utils import timezone
 
 from django.db import models
 from django.core.mail import send_mail
@@ -14,6 +15,7 @@ class Email(models.Model):
     text = models.TextField()
     delay = models.PositiveIntegerField()
     sent = models.BooleanField(default=False)
+    created = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f'{self.id} {self.address}'
@@ -29,3 +31,5 @@ class Email(models.Model):
                 fail_silently=False,
             )
             print('SENT', self)
+            self.sent = True
+            self.save()

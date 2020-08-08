@@ -4,4 +4,5 @@ from app.models import Email
 
 @admin.register(Email)
 class EmailAdmin(admin.ModelAdmin):
-    pass
+
+    ordering = ['-created']
