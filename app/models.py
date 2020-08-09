@@ -2,10 +2,14 @@ import uuid
 import os
 import time
 import smtplib
+import logging
 from django.utils import timezone
 
 from django.db import models
 from django.core.mail import send_mail
+
+
+logging.basicConfig(level=logging.INFO)
 
 
 class Email(models.Model):
@@ -22,6 +26,7 @@ class Email(models.Model):
 
     def send(self):
         if not self.sent:
+            logging.info(f'PENDING {self.id}')
             time.sleep(self.delay)
             send_mail(
                 self.subject,
@@ -30,6 +35,7 @@ class Email(models.Model):
                 recipient_list=[self.address, ],
                 fail_silently=False,
             )
-            print('SENT', self)
+            now = timezone.now().strftime('%Y-%b-%d %H:%M:%S')
+            logging.info(f'SENT {self.id} AT {now}')
             self.sent = True
             self.save()
