@@ -1,0 +1,6 @@
+{
+    "name": "MAILER API",
+    "description": "",
+    "image": "heroku/python",
+    "keywords": ["python", "django", "DRF", "threading"]
+}
